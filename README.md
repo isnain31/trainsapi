@@ -28,7 +28,7 @@ Front end
 
 Disclaimer
 ==========
-The application runs well in firefox and chrome. However might have issue in ie
+The application runs well in firefox and chrome. However it was not tested in IE
 
 
 
