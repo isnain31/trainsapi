@@ -1,7 +1,7 @@
 snubesapi
 =========
 
-A Symfony project that uses symfony in the backend and angularJS in the front end to insert/update/delete trains in a train station and calculates the number of track needed in day to service all trans scheduled to come.
+A Symfony project that uses symfony in the backend and angularJS in the front end to insert/update/delete trains in a train station and calculates the number of track needed in day to service all trains scheduled to come.
 
 How to use:
 ===========
@@ -28,7 +28,7 @@ Front end
 
 Disclaimer
 ==========
-The application runs well in firefox and chrome. However might have issue in ie
+The application runs well in firefox and chrome. However it was not tested in IE
 
 
 
