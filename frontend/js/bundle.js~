@@ -109,8 +109,8 @@ app.controller('trainController', ['$scope','trainService',
      }
 
      $scope.saveTrain = function () {
-	
-	if($scope.train_number==undefined){
+	console.log($scope.train_number);
+	if($scope.train_number==undefined || $scope.train_number==""){
             trainService.add($scope.train_name,$scope.build_year,$scope.train_type)
               .then (function success(response){
                   $scope.successMessage = 'Train Added';
