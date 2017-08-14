@@ -1,0 +1,58 @@
+<?php
+namespace AppBundle\Service;
+use Symfony\Component\HttpFoundation\RequestStack;
+
+class TrainSave
+{
+     
+	private $request;
+	private $em;
+	private $trainName;
+	private $buildYear;
+	private $trainType;
+
+
+	public function __construct(RequestStack $requestStack,\Doctrine\ORM\EntityManager $em){
+	    	$this->request=$requestStack->getCurrentRequest();
+		$this->em=$em;
+		$this->trainName = $this->request->get('trainName');
+		$this->buildYear = $this->request->get('buildYear');
+		$this->trainType= $this->request->get('trainType');	
+
+        }
+    
+	private function setTrain(Trains $train){
+		$train->setTrainType($this->trainType);
+		$train->setTrainName($this->trainName);
+		$train->setBuildYear($this->buildYear); 
+	}
+
+    	public function save(int $number=0){
+
+		
+	
+		if($number!=0){ // edit
+			$train = $this->em->getRepository('AppBundle:Trains')->find($number);
+
+			if (empty($train)) {
+			     return null;
+			} 
+			else{
+				$train=$this->setTrain($train);
+				$this->em->flush();
+				return $train;
+			}
+		}
+		else{	// save
+			$train = new Trains;
+			$train->setTrainType($trainType);
+			$train->setTrainName($trainName);
+                        $train->setBuildYear($buildYear);
+			$this->em->persist($train);
+                        $this->em->flush();
+		}
+			
+		
+        }
+}
+

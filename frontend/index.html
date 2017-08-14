@@ -1,0 +1,182 @@
+ <!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <title>Snubesfend</title>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.3/jasmine.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.3/jasmine.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.3/jasmine-html.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.3/boot.min.js"></script>
+
+
+	<script data-require="jquery@2.1.4" data-semver="2.1.4" src="https://code.jquery.com/jquery-2.1.4.js"></script>
+        <link rel="stylesheet" href="css/jquery.timepicker.css" />
+	<link href="css/stylesheet.css" rel="stylesheet">
+
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>	
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-mocks.js"></script>
+
+
+	<script src="js/jquery.timepicker.js"></script>
+	<script src="js/bundle.js"></script>
+	
+</head>
+<body>
+
+<div ng-app="trainApp" ng-controller="trainController" class="container">
+
+<div class="panel panel-warning" ng-show="api_url == ''">
+      	<div class="panel-heading">Settings: API URL</div>
+      	<div class="panel-body">
+		<p>Please insert the path to the api url here. This window goes away once api url is placed</p>
+		<div class="form-group">
+        	    <label class="control-label" for="api_url">http://</label>
+        	    <input type="text" ng-model="api_url_input"  ng-blur="setApi();"/>
+		</div>
+	</div>
+</div>
+
+<h2>Manage Your Trains</h2>
+
+
+	
+
+<div class="row">
+    <div class="col-md-12 form-container">
+	
+	<div class="panel panel-info">
+      	<div class="panel-heading">Add/Modify Trains</div>
+      	<div class="panel-body">
+	
+	<p class="bg-success" ng-show="successMessage != null">{{successMessage}}</p>
+	<p class="bg-warning" ng-show="errorMessage != null">{{errorMessage}}</p>
+	<p>Please fill all the fields</p>
+	<form novalidate="novalidate" class="form-inline" name="trainform" ng-submit="saveTrain()">
+        
+        <div class="form-group">
+            <label class="control-label" for="train_name">Train Name:</label>
+           
+                <input type="text" ng-model="train_name"  required name="train_name" />
+		
+         
+        </div>
+	<div class="form-group">
+            <label class="control-label" for="train_type">Train Type:</label>
+            
+                <select ng-model="train_type" required name="train_type">
+					<option value="steam">Steam</option>
+					<option value="electrical">Electrical</option>
+				</select>
+		
+            
+        </div>
+
+	 <div class="form-group">
+            <label class="control-label" for="build_year">Build Year:</label>
+            
+                <input type="number" name="build_year" ng-model="build_year" minlength="2" maxlength="4"  required/>
+		
+           
+        </div> 
+
+        <div class="form-group">
+           
+		<input type="hidden" ng-model="train_number"/>
+
+		<button ng-disabled="!trainform.$valid" type="submit" class="btn btn-small btn-primary">Save</button>
+           
+        </div>
+     </form>
+     </div>
+	
+
+
+    </div>	
+
+    
+
+    <div class="col-md-12">
+	<div class="panel panel-info">
+      	<div class="panel-heading">Existing Trains</div>
+      	<div class="panel-body">	
+ 	<div class="table">
+		<div class="row heading">
+			<div class="col-md-2">Train Number</div>
+			<div class="col-md-3">Train Name</div>
+			<div class="col-md-2">Train Type</div>
+			<div class="col-md-2">Build Year</div>
+			<div class="col-md-3">Action</div>
+		</div>        
+
+		<div class="row table-row"  ng-repeat="train in trains" ng-click="rowClick($event,train)">
+			<div class="col-md-2">{{train.train_number}}</div>
+			<div class="col-md-3">{{train.train_name}}</div>
+			<div class="col-md-2">{{train.train_type}}</div>
+			<div class="col-md-2">{{train.build_year}}</div>
+			<div class="col-md-3">
+	
+			    <a  class='btn btn-primary select'>
+		                <span class='glyphicon glyphicon-eye-open'></span> Select
+		            </a>
+	 
+
+		            <a  class='btn btn-info edit'>
+		                <span class='glyphicon glyphicon-edit'></span> Edit
+		            </a>
+	 
+
+		            <a  class='btn btn-danger delete'>
+		                <span class='glyphicon glyphicon-remove'></span> Delete
+		            </a>
+		
+			</div>
+		</div>
+
+		</div>
+	    </div>
+
+	</div>
+
+	<div class="panel panel-info">
+      	<div class="panel-heading">Select trains from above to add Arrival, Departure time and Calculate Tracks</div>
+      	<div class="panel-body">
+
+
+
+	<div class="container table">
+		<div class="row heading"  >
+			<div class="col-md-6">Selected Train</div>
+			<div class="col-md-3">Arrival Time</div>
+			<div class="col-md-3">Departure Time</div>
+		</div>
+		<form name="timingForm" novalidate="novalidate"  ng-submit="calculate()">
+		<div class="row"  ng-repeat="trainsSelected in trainsSelecteds">
+			<div class="col-md-3">{{trainsSelected.train_number}}</div>
+			<div class="col-md-3">{{trainsSelected.train_name}}</div>
+			<div class="col-md-3"><input type="text" name="input" timepicker ng-model="arrivals[$index]" required /></div>
+			<div class="col-md-3"><input type="text"  name="input" timepicker ng-model="departures[$index]"  required /></div>
+
+		</div>
+		
+
+		<button  type="submit" class="btn btn-small btn-primary">Calculate</button>
+		</form>
+		<h4 ng-show="tracks != 0">Number of track needed is {{tracks}}</h4>
+	</div>
+	
+
+	</div>
+       
+    </div>
+</div>
+
+
+</div>
+
+
+
+
+
+</body>
+</html> 
