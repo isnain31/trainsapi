@@ -9,7 +9,7 @@ app.directive('timepicker', function() {
     model: '=ngModel'
   },
         link : function (scope, element, attrs, ngModelCtrl) {
-              element.timepicker({'timeFormat' : 'H:i:s'});
+              element.timepicker({'timeFormat' : 'H:i:s','step':1});
 
 	    element.on('changeTime', function () {
 	      scope.$apply(function () {

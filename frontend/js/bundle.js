@@ -26,6 +26,7 @@ app.service('trainService', [ '$http', function($http) {
    var apiurl;
    
    this.setupApi = function setupApi(url) {
+	url=url.replace(/\/$/, "");
 	apiurl='http://'+url;
    }
 
