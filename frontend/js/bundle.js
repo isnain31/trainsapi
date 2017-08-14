@@ -259,14 +259,14 @@ app.controller('trainController', ['$scope','trainService',
 				continue;
 			// since sorted next train must be later or exact the same time
 			if(arrivalDepartures[i].departure < arrivalDepartures[j].arrival ) {
-				arrivalDepartures[j].serviced=1;				
+				arrivalDepartures[j].serviced=1;  // marking the trains those are serviced by other tracks
 				arrivalDepartures[i].departure=arrivalDepartures[j].departure
 			} 
 			
 		}
 	    }	
 		
-	    $scope.tracks=$scope.countTracks(arrivalDepartures);	
+	    $scope.tracks=$scope.countTracks(arrivalDepartures);	// just counting the tracks which serviced others
       }	
 	
       
