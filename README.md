@@ -20,6 +20,8 @@ Front end
 
 * the directory "frontend" has the fonrend part. 
 
+* copy the directory outside of the symfony project and run the index.html
+
 * On first run in the settings panel put the api url
 
 * in case of wrong api url entered at the first time just refresh the page
