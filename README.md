@@ -12,15 +12,15 @@ How to use:
 
 * create and migrate database migration files are given
 
-* <optional>create a virtual host </optional>
+* optional: create a virtual host
 
 
 Front end
 =========
 
-* the frontend directory has the fonrend part. 
+* the directory "frontend" has the fonrend part. 
 
-* On first run in the settings panel just put the api url
+* On first run in the settings panel put the api url
 
 * in case of wrong api url entered at the first time just refresh the page
 
